@@ -1,0 +1,40 @@
+name: tailscale2actions
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Install Tailscale
+        run: |
+            curl -fsSL https://tailscale.com/install.sh | sh
+
+      - name: Runing Tailscale
+        run: sudo tailscale up
+
+      - name: Set runner password
+        run: |
+            echo "Make sure you have added repository secrets in 'Settings' - 'Secrets and variables' - 'Actions' - 'Repository secrets' with the name 'SSH_PASSWORD' and type your password"
+            echo "runner:${{ secrets.SSH_PASSWORD }}" | sudo chpasswd
+        shell: bash
+        env:
+          SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
+
+      - name: Enable password authentication in SSH config
+        run: sudo sed -i 's/#PasswordAuthentication yes/PasswordAuthentication yes/' /etc/ssh/sshd_config
+
+      - name: Restart SSH service
+        run: sudo systemctl restart ssh
+
+      - name: Print Tailscale IP
+        run: tailscale ip
+
+      - name: SSH to Actions VM now
+        run: echo "Now, you can connect to the GitHub Actions VM via 'ssh runner@[tailscale ip]'"
+
+      - name: Wait for 6h
+        run: |
+            sleep 350m  # A single step is limited to 6h, you can adjust the time as needed
