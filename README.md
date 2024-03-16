@@ -1,6 +1,8 @@
 # tailscale2actions
 SSH to GitHub Actions VM using Tailscale
 
+Now supports: Ubuntu, MacOS
+
 ## How to use
 1. Install Tailscale in your local client and log in
 
@@ -10,7 +12,7 @@ SSH to GitHub Actions VM using Tailscale
 
 4. Run and check workflow. Visit `https://login.tailscale.com/a/xxxxxx` to authenticate
 
-5. Connect to GitHub Actions VM via `ssh runner@[tailscale ip]`
+5. Connect to GitHub Actions VM via `ssh [username]@[tailscale ip]`
 
 ## Credits
 - [Microsoft Azure](https://azure.microsoft.com)

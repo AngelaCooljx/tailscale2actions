@@ -1,0 +1,43 @@
+name: MacOS
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-14
+
+    steps:
+      - name: Install Go
+        run: |
+          curl -O https://dl.google.com/go/go1.22.1.darwin-arm64.pkg
+          sudo installer -pkg go1.22.1.darwin-arm64.pkg -target /
+
+      - name: Install Tailscale
+        run: |
+          source /etc/zprofile
+          go install tailscale.com/cmd/tailscale{,d}@main
+          sudo $HOME/go/bin/tailscaled install-system-daemon
+
+      - name: Run Tailscale
+        run: $HOME/go/bin/tailscale up
+
+      - name: Print Tailscale IP
+        run: $HOME/go/bin/tailscale ip
+
+      - name: Enable remote login
+        run: |
+          sudo systemsetup -setremotelogin on
+          sudo systemsetup -getremotelogin
+
+      - name: Create a user "action" and set password
+        run: |
+          echo "Make sure you have added repository secrets in 'Settings' - 'Secrets and variables' - 'Actions' - 'Repository secrets' with the name 'SSH_PASSWORD' and type your password"
+          sudo sysadminctl -addUser action -password ${{ secrets.SSH_PASSWORD }} -admin
+        env:
+          SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
+
+      - name: Wait for 6h
+        run: |
+          echo "Now, you can connect to the GitHub Actions VM via 'ssh action@[tailscale ip]'"
+          sleep 21600  # A single step is limited to 6h, you can adjust the time as needed
