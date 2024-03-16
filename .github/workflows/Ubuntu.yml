@@ -1,4 +1,4 @@
-name: tailscale2actions
+name: Ubuntu
 
 on:
   workflow_dispatch:
@@ -12,7 +12,7 @@ jobs:
         run: |
             curl -fsSL https://tailscale.com/install.sh | sh
 
-      - name: Runing Tailscale
+      - name: Run Tailscale
         run: sudo tailscale up
 
       - name: Set runner password
@@ -32,9 +32,7 @@ jobs:
       - name: Print Tailscale IP
         run: tailscale ip
 
-      - name: SSH to Actions VM now
-        run: echo "Now, you can connect to the GitHub Actions VM via 'ssh runner@[tailscale ip]'"
-
       - name: Wait for 6h
         run: |
+            echo "Now, you can connect to the GitHub Actions VM via 'ssh runner@[tailscale ip]'"
             sleep 350m  # A single step is limited to 6h, you can adjust the time as needed
