@@ -12,7 +12,7 @@ Now supports: Ubuntu, MacOS
 
 4. Run and check workflow. Visit `https://login.tailscale.com/a/xxxxxx` to authenticate
 
-5. Connect to GitHub Actions VM via `ssh [username]@[tailscale ip]`
+5. Connect to GitHub Actions VM via `ssh [username]@[tailscale-ip]`
 
 ## Credits
 - [Microsoft Azure](https://azure.microsoft.com)

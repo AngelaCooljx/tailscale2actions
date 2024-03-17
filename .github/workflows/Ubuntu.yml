@@ -34,5 +34,5 @@ jobs:
 
       - name: Wait for 6h
         run: |
-            echo "Now, you can connect to the GitHub Actions VM via 'ssh runner@[tailscale ip]'"
-            sleep 350m  # A single step is limited to 6h, you can adjust the time as needed
+            echo "Now, you can connect to the GitHub Actions VM via 'ssh runner@[tailscale-ip]'"
+            sleep 6h  # A single step is limited to 6h, you can adjust the time as needed
