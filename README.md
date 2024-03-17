@@ -1,7 +1,7 @@
 # tailscale2actions
 SSH to GitHub Actions VM using Tailscale
 
-Now supports: Ubuntu, MacOS
+Now supports: Ubuntu, MacOS, Windows(RDP is also available)
 
 ## How to use
 1. Install Tailscale in your local client and log in
