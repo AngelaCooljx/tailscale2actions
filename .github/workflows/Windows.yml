@@ -34,7 +34,7 @@ jobs:
       uses: MinoruSekine/setup-scoop@main
       with:
         install_scoop: 'true'
-        add_extras_bucket: 'true'
+        buckets: extras
         scoop_update: 'true'
         update_path: 'true'
 
