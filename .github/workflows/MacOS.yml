@@ -10,8 +10,8 @@ jobs:
     steps:
       - name: Install Go
         run: |
-          curl -O https://dl.google.com/go/go1.22.1.darwin-arm64.pkg
-          sudo installer -pkg go1.22.1.darwin-arm64.pkg -target /
+          curl -O https://dl.google.com/go/go1.23.1.darwin-arm64.pkg
+          sudo installer -pkg go1.23.1.darwin-arm64.pkg -target /
 
       - name: Install Tailscale
         run: |
@@ -40,4 +40,4 @@ jobs:
       - name: Wait for 6h
         run: |
           echo "Now, you can connect to the GitHub Actions VM via 'ssh action@[tailscale-ip]'. Recommend switching to user 'runner' after that"
-          sleep 21600  # A single step is limited to 6h, you can adjust the time as needed
+          sleep 21000  # A single step is limited to 6h, you can adjust the time as needed

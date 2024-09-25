@@ -53,4 +53,4 @@ jobs:
     - name: Wait for 6h # A single step is limited to 6h, you can adjust the time as needed
       run: |
         echo "Now, you can connect to the GitHub Actions VM via 'ssh runneradmin@[tailscale-ip], or use RDP'"
-        Start-Sleep -Seconds 21600
+        Start-Sleep -Seconds 21000
