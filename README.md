@@ -1,3 +1,4 @@
+**English** | [中文](README_zh.md)
 # tailscale2actions
 SSH to GitHub Actions VM using Tailscale
 
