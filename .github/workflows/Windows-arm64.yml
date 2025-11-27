@@ -1,0 +1,41 @@
+name: Windows-arm64
+
+on: 
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-11-arm
+
+    steps:
+    - name: Set password for runneradmin
+      run: |
+        $SecurePassword = ConvertTo-SecureString -String $env:SSH_PASSWORD -AsPlainText -Force
+        Set-LocalUser -Name "runneradmin" -Password $SecurePassword
+      env:
+        SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
+        TAILSCALE_AUTHKEY: ${{ secrets.TAILSCALE_AUTHKEY }}
+
+    - name: Enable RDP server
+      run: |
+        Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server'-name "fDenyTSConnections" -Value 0
+        Enable-NetFirewallRule -DisplayGroup "Remote Desktop"
+        Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp' -name "UserAuthentication" -Value 1
+
+    - name: Install Tailscale via Chocolatey
+      run: |
+        choco install tailscale
+
+    - name: Start Tailscale
+      shell: cmd
+      run: |
+          "C:\Program Files\Tailscale\tailscale.exe" up --auth-key=${{ secrets.TAILSCALE_AUTHKEY }} --accept-routes
+
+    - name: Print Tailscale IP
+      run: |
+        tailscale ip
+
+    - name: Wait for 6h # A single step is limited to 6h, you can adjust the time as needed
+      run: |
+        echo "Now, you can connect to the GitHub Actions VM via 'ssh runneradmin@[tailscale-ip], or use RDP'"
+        Start-Sleep -Seconds 21000
